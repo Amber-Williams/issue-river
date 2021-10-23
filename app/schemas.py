@@ -26,7 +26,6 @@ class User(UserBase):
         # set to include relationship data
         orm_mode = True
 
-
 class WorkspaceCreate(BaseModel):
     name: str
     user_id: int

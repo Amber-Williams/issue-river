@@ -47,3 +47,10 @@ def add_user_to_workspace(db: Session, db_user: models.User, db_workspace: model
     db.refresh(db_workspace)
     db.refresh(db_user)
     return db_workspace
+
+def remove_user_to_workspace(db: Session, db_user: models.User, db_workspace: models.Workspace):
+    db_workspace.users.remove(db_user)
+    db.commit()
+    db.refresh(db_workspace)
+    db.refresh(db_user)
+    return db_workspace
