@@ -19,8 +19,10 @@ pytest==6.2.5
 python-dotenv==0.19.1
 PyYAML==6.0
 requests==2.26.0
+six==1.16.0
 sniffio==1.2.0
 SQLAlchemy==1.4.26
+SQLAlchemy-Utils==0.37.9
 starlette==0.16.0
 toml==0.10.2
 typing-extensions==3.10.0.2
