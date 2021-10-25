@@ -37,7 +37,6 @@ class WorkspaceEdit(BaseModel):
 class Workspace(BaseModel):
     id: int
     name: str
-    is_active: bool
     users: List[User] = []
 
     class Config:

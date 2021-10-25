@@ -84,8 +84,7 @@ def test_create_and_get_user():
 def test_create_and_get_workspace():
     expected = {
         "id": 1,
-        "name": "Get shit done Inc.",
-        "is_active": True,
+        "name": workspace["name"],
         "users": [
             {
             "id": 1,
