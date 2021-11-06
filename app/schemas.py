@@ -1,7 +1,7 @@
 from typing import List, Optional
 from enum import Enum
 
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 class Role(str, Enum):
     owner = "owner"
@@ -9,12 +9,12 @@ class Role(str, Enum):
     contributor	 = "contributor"
 
 class UserBase(BaseModel):
-    email: str
-    first_name: str
-    last_name: str
+    email: str = Field(..., max_length=255)
+    first_name: str = Field(..., max_length=50)
+    last_name: str = Field(..., max_length=100)
 
 class UserCreate(UserBase):
-    password: str
+    password: str = Field(..., max_length=128)
 
 class User(UserBase):
     id: int
@@ -27,7 +27,7 @@ class User(UserBase):
         orm_mode = True
 
 class WorkspaceCreate(BaseModel):
-    name: str
+    name: str = Field(..., max_length=128)
     user_id: int
 
 class WorkspaceEdit(BaseModel):
