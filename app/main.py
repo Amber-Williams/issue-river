@@ -14,7 +14,7 @@ models.Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
 
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="login")
 
 # 60 minutes * 24 hours * 7 days = 7 days
 ACCESS_TOKEN_EXPIRY: int = 60 * 24 * 7
@@ -85,7 +85,7 @@ def delete_user_from_workspace(workspace_update: schemas.WorkspaceEdit, db: Sess
             return crud_workspace.remove_user_to_workspace(db=db, db_user=db_user, db_workspace=db_workspace)
     raise HTTPException(status_code=404, detail="User not found")
 
-@app.post("/login/access-token", response_model=schemas.Token)
+@app.post("/login", response_model=schemas.Token)
 def login_access_token(
     db: Session = Depends(get_db), form_data: OAuth2PasswordRequestForm = Depends()
 ):
