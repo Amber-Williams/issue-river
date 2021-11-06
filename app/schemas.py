@@ -42,3 +42,10 @@ class Workspace(BaseModel):
     class Config:
         # set to include relationship data
         orm_mode = True
+
+class Token(BaseModel):
+    access_token: str
+    token_type: str
+
+class TokenPayload(BaseModel):
+    sub: Optional[int] = None
