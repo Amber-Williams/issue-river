@@ -1,13 +1,18 @@
 from typing import Optional
+from os.path import join, dirname
+import os
 
 from sqlalchemy.orm import Session
-from starlette.config import Config
+from dotenv import load_dotenv, find_dotenv
 from jose import jwt
 
 from app import models, schemas
 from app.core.security import get_password_hash, verify_password
 
-config = Config('.env')
+load_dotenv(find_dotenv())
+
+SECRET_KEY = os.environ.get("SECRET_KEY")
+ALGORITHM = os.environ.get("ALGORITHM")
 
 def get_users_by_workspace(db: Session, workspace_id: int):
     return db.query(models.User).filter(models.User.workspace == workspace_id).all()
@@ -19,7 +24,7 @@ def get_user_by_email(db: Session, email: str):
     return db.query(models.User).filter(models.User.email == email).first()
 
 def get_user_by_access_token(db: Session, access_token: str):
-    payload = jwt.decode(access_token, config.SECRET_KEY, algorithm=config.ALGORITHM)
+    payload = jwt.decode(access_token, SECRET_KEY, algorithm=ALGORITHM)
     id: str = payload.get("sub")
     return get_user(db, id)
 

@@ -1,13 +1,17 @@
 from datetime import datetime, timedelta
 from typing import Any, Union
+from os.path import join, dirname
+import os
 
 from jose import jwt
 from passlib.context import CryptContext
-from starlette.config import Config
+from dotenv import load_dotenv, find_dotenv
 
-config = Config('.env')
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+load_dotenv(find_dotenv())
 
+SECRET_KEY = os.environ.get("SECRET_KEY")
+ALGORITHM = os.environ.get("ALGORITHM")
 # 60 minutes * 24 hours * 7 days = 7 days
 ACCESS_TOKEN_EXPIRY: int = 60 * 24 * 7
 
@@ -22,7 +26,7 @@ def create_access_token(
             minutes=ACCESS_TOKEN_EXPIRY
         )
     to_encode = {"exp": expire, "sub": str(subject)}
-    encoded_jwt = jwt.encode(to_encode, config.SECRET_KEY, algorithm=config.ALGORITHM)
+    encoded_jwt = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
     return encoded_jwt
 
 def verify_password(plain_password: str, hashed_password: str) -> bool:
