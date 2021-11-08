@@ -1,4 +1,5 @@
 # River
+An app to help teams with bugs, features and fixes
 
 ### Set up
 1. run `source venv/bin/activate` to activate the projects virtual environment
