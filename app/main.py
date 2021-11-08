@@ -16,9 +16,6 @@ app = FastAPI()
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="login")
 
-# 60 minutes * 24 hours * 7 days = 7 days
-ACCESS_TOKEN_EXPIRY: int = 60 * 24 * 7
-
 def get_db():
     db = SessionLocal()
     try:
@@ -100,10 +97,9 @@ def login_access_token(
         raise HTTPException(status_code=400, detail="Incorrect email or password")
     elif not user.is_active:
         raise HTTPException(status_code=400, detail="Inactive user")
-    access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRY)
     return {
         "access_token": security.create_access_token(
-            user.id, expires_delta=access_token_expires
+            user.id
         ),
         "token_type": "bearer",
     }

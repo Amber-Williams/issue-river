@@ -3,15 +3,13 @@ from typing import Any, Union
 
 from jose import jwt
 from passlib.context import CryptContext
+from starlette.config import Config
 
-
+config = Config('.env')
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
-
-ALGORITHM = "HS256"
 # 60 minutes * 24 hours * 7 days = 7 days
 ACCESS_TOKEN_EXPIRY: int = 60 * 24 * 7
-SECRET_KEY = "shhsecret"
 
 
 def create_access_token(
@@ -24,7 +22,7 @@ def create_access_token(
             minutes=ACCESS_TOKEN_EXPIRY
         )
     to_encode = {"exp": expire, "sub": str(subject)}
-    encoded_jwt = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
+    encoded_jwt = jwt.encode(to_encode, config.SECRET_KEY, algorithm=config.ALGORITHM)
     return encoded_jwt
 
 def verify_password(plain_password: str, hashed_password: str) -> bool:
