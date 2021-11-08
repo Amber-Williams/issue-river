@@ -11,6 +11,7 @@ def get_workspace_by_name(db: Session, workspace_name: str):
 
 def create_workspace(db: Session, workspace_create: schemas.WorkspaceCreate):
     db_user = crud_user.get_user(db, workspace_create.user_id)
+    db_user.role = schemas.Role.owner
     db_workspace = models.Workspace(name=workspace_create.name)
     db_workspace.users.append(db_user)
     db.add(db_workspace)

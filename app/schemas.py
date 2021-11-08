@@ -34,6 +34,10 @@ class WorkspaceEdit(BaseModel):
     id: int
     user_id: int
 
+class WorkspaceEditRole(WorkspaceEdit):
+    role: Role
+
+
 class Workspace(BaseModel):
     id: int
     name: str

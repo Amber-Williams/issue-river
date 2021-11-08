@@ -49,3 +49,9 @@ def authenticate(db: Session, email: str, password: str) -> Optional[models.User
     if not verify_password(password, user.hashed_password):
         return None
     return user
+
+def set_user_role(db: Session, db_user: models.User, role: schemas.Role):
+    db_user.role = role
+    db.commit()
+    db.refresh(db_user)
+    return db_user

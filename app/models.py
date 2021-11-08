@@ -5,7 +5,7 @@ from .database import Base
 
 class User(Base):
     def __repr__(self):
-        return f"<User(id={self.id}, email={self.email}, workspace={self.workspace})>"
+        return f"<User(id={self.id}, email={self.email}, workspace={self.workspace}) role={self.role}>"
 
     __tablename__ = "user"
 

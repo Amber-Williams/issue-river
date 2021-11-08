@@ -82,6 +82,14 @@ def delete_user_from_workspace(workspace_update: schemas.WorkspaceEdit, db: Sess
             return crud_workspace.remove_user_to_workspace(db=db, db_user=db_user, db_workspace=db_workspace)
     raise HTTPException(status_code=404, detail="User not found")
 
+@app.post("/workspace/user/role", response_model=schemas.User, dependencies=[Depends(oauth2_scheme)])
+def edit_user_role(workspace_update: schemas.WorkspaceEditRole, db: Session = Depends(get_db)):
+    db_user, db_workspace = get_workspace_edit(db=db, workspace_update=workspace_update)
+    for user in db_workspace.users:
+        if user.id == workspace_update.user_id:
+            return crud_user.set_user_role(db=db, db_user=db_user, role=workspace_update.role)
+    raise HTTPException(status_code=404, detail="User not found in workspace")
+
 @app.post("/login", response_model=schemas.Token)
 def login_access_token(
     db: Session = Depends(get_db), form_data: OAuth2PasswordRequestForm = Depends()
